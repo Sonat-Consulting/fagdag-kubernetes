@@ -4,6 +4,6 @@
 Slik installerer du minikube på mac
 -----
 
-    brew install minicube
+    brew install minikube
 
 
