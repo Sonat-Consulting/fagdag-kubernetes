@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#nvm use
+npm ci
+docker build . -t k8s-demo-pod:latest
+#docker tag k8s-demo-pod:latest  .....
+#docker push ...

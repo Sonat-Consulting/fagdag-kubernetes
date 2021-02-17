@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sumo-api-notification-simple</title>
+</head>
+<body>
+
+<h1>Add a notification</h1>
+<form  action="../addNotification" method="POST">
+
+    <table>
+
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>severity</td><td>
+            <select name="severity">
+                <option value="info">info</option>
+                <option value="warning">warning</option>
+                <option value="error">error</option>
+                <option value="success">success</option>
+            </select>
+        </td></tr>
+        <tr><td>heading</td><td><input type="text" name="heading" size="50"></td></tr>
+        <tr><td>message</td><td><textarea name="message" rows="4" cols="60"></textarea></td></tr>
+        <tr><td>suspendText</td><td><input type="text" name="suspendText" size="50"></td></tr>
+        <tr><td>actionText</td><td><input type="text" name="actionText" size="50"></td></tr>
+        <tr><td>actionUrl</td><td><input type="text" name="actionUrl" size="50"></td></tr>
+    </table>
+
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<hr/>
+
+<h1>Add legacy-notification</h1>
+<h2>PAYMENT_CARD_EXPIRES</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="PAYMENT_CARD_EXPIRES" size="30" readonly></td></tr>
+        <tr><td>orderId</td><td><input type="number" name="order_id" size="50"></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>PAYMENT_FAILED</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="PAYMENT_FAILED" size="30" readonly></td></tr>
+        <tr><td>orderId</td><td><input type="number" name="order_id" size="50"></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>SUBSCRIPTION_ENDS</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="SUBSCRIPTION_ENDS" size="30" readonly></td></tr>
+        <tr><td>orderId</td><td><input type="number" name="order_id" size="50"></td></tr>
+        <tr><td>access_end_date</td><td><input type="text" name="access_end_date" size="10"></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>SUBSCRIPTION_FROZEN</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="SUBSCRIPTION_FROZEN" size="30" readonly></td></tr>
+        <tr><td>orderId</td><td><input type="number" name="order_id" size="50"></td></tr>
+        <tr><td>end_date (optional)</td><td><input type="text" name="end_date" size="10"></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>PRODUCTS_CHANGED</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="PRODUCTS_CHANGED" size="30" readonly></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>USER_SCHEDULED_FOR_MIGRATION</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="USER_SCHEDULED_FOR_MIGRATION" size="30" readonly></td></tr>
+        <tr><td>end_date (optional)</td><td><input type="text" name="end_date" size="10"></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>NO_SUBSCRIPTION</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="NO_SUBSCRIPTION" size="30" readonly></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>SERVICE_MESSAGE</h2>
+<form  action="../addNotification" method="POST">
+    <input type="hidden" name="legacy" value="true">
+    <table>
+        <tr><td>userId</td><td><input type="number" name="userId"></td></tr>
+        <tr><td>type</td><td><input type="text" name="type" value="SERVICE_MESSAGE" size="30" readonly></td></tr>
+        <tr><td>title</td><td><input type="text" name="title" size="50"></td></tr>
+        <tr><td>text</td><td><textarea name="text" rows="4" cols="60"></textarea></td></tr>
+    </table>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
