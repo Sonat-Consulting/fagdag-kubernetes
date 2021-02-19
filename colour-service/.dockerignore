@@ -1,0 +1,6 @@
+# Everything is ignored
+**
+
+# Allowed
+!/target/x86_64-unknown-linux-musl/release/colour-service
+!/static/templates/

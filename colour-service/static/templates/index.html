@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://rawgit.com/outboxcraft/beauter/master/beauter.min.css">
+    <head>
+        <title>Pod Info</title>
+    </head>
+    <body>
+        <div class="jumbo" style="background-color:{{me.colour_rgb}};">
+            <h3>Hello, I am a Pod!</h3>
+            <p>For those without a colour TV, my colour is <span style="background-color:{{me.colour_rgb}};">{{me.colour_rgb}}</span></p>
+        </div>
+        <div class="container _cream"style="min-height:250px">
+            <h3 class="_alignRight">about me</h3>
+            <div class="note _f-warning _nightblue">
+                My name is <code>{{me.name}}</code>!<br>
+                This <code>{{me.node}}</code> is my home node<br>
+                Currently namespace is <code>{{me.name_space}}</code><br>
+                <code>{{me.ip}}</code> is where you can find me inside the cluster<br>
+                Since I came online I have served <code>{{me.number_of_requests}}</code> requests!
+            </div>
+        </div>
+        {{#if friend}}
+        <div class="container _cream"style="min-height:250px">
+            <h3 class="_alignRight">one of my friends</h3>
+            <div class="note _f-warning _nightblue">
+                My friends name is <code>{{friend.name}}</code>!<br>
+                Their node is <code>{{friend.node}}</code><br>
+                <code>{{friend.name_space}}</code> is their namespace<br>
+                Find them at <code>{{friend.ip}}</code> inside the cluster<br>
+                They have served <code>{{friend.number_of_requests}}</code> requests so far!
+            </div>
+        </div>
+        {{else}}
+        <div class="container _cream"style="min-height:250px">
+            <h3 class="_alignRight">no friends found :(</h3>
+            <div class="note _f-warning _nightblue">
+                Please make sure there is enough <code>replicas</code> of us running!<br>
+                Perhaps setting <code>replicas: 5</code> under the Deployment spec in deployment.yaml will fix it?
+            </div>
+        </div>
+        {{/if}}
+
+
+    </body>
+</html>
