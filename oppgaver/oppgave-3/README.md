@@ -1,3 +1,5 @@
 ## Oppgave3:
-En pod med feil som krasjer.
+En deployment som inneholder container med feil som krasjer. 
+Alt er da utilgjengelig. 
 De må gjøre en rollback. 
+
