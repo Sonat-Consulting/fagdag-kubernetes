@@ -1,6 +1,10 @@
 ## Oppgave 2:
 
-I denne oppgaven skal dere bli kjent med hva som skjer når en pod restarter.
+I denne oppgaven skal dere bli kjent med hva som skjer når en pod restarter. 
+Dere skal også bli kjent med hvordan Kubernetes vurderer om en pod trenger å restartes.
+
+Vi tar med health og readiness.
+
 Man kan drepe en pod ved å kjøre `kubectl kill <pod-id>`
 Da gir man beskjed til Kubernetes om å drepe den aktuelle pod-instansen og Kubernetes vil starte en ny.
 
@@ -24,6 +28,9 @@ Du kan også få applikasjonen til å krasje ved å trykker på TODO
 Er det forskjell fra når du tok den ned selv?
 
 Bruk gjerne kommandoer og det du har lært fra forrige oppgave :)
+
+#### Kubernetes tutorial
+Man kan også leke med tilsvarende funksjonalitet i denne tutorial: 
 
 
 

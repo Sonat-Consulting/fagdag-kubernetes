@@ -1,5 +1,4 @@
 ## Oppgave3:
-En deployment som inneholder container med feil som krasjer. 
-Alt er da utilgjengelig. 
-De må gjøre en rollback. 
-
+Lære seg hvordan en rolling update fungerer.
+Se hva som skjer når man får inn en deployment som inneholder feil. 
+Readiness in action. 
