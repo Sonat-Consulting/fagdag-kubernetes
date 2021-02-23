@@ -95,10 +95,11 @@ async fn main() -> std::io::Result<()> {
             .app_data(handlebars_ref.clone())
             .data(pod_info.clone())
             .data(app_config.clone())
-            .route("/", web::get().to(index_handler))
             .route("/info", web::get().to(info_handler))
             .route("/crash", web::get().to(stop_handler))
             .route("/health", web::get().to(health_handler))
+            // Default / and wildcard handler
+            .route("/{tail:.*}", web::get().to(index_handler))
     })
     .workers(1)
     .bind("0.0.0.0:8080")?
