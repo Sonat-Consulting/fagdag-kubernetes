@@ -6,7 +6,6 @@ metadata:
     app: demo-pod
     version: default
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: demo-pod
@@ -22,7 +21,7 @@ spec:
     spec:
       containers:
       - name: demo-pod
-        image: scav/colour-service:latest
+        image: scav/colour-service:any
         ports:
         - containerPort: 8080
 
@@ -56,59 +55,3 @@ spec:
           requests:
             cpu: "200m"
             memory: "100Mi"
----
-#apiVersion: autoscaling/v2beta1
-#kind: HorizontalPodAutoscaler
-#metadata:
-#    name: demo-pod
-#    labels:
-#      app: demo-pod
-#      version: default
-#spec:
-#    minReplicas: 2
-#    maxReplicas: 3
-#    scaleTargetRef:
-#      apiVersion: apps/v1
-#      kind: Deployment
-#      name: demo-pod
-#    metrics:
-#      - type: Resource
-#        resource:
-#          name: cpu
-#          targetAverageUtilization: 66
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: demo-pod
-  labels:
-    app: demo-pod
-spec:
-  selector:
-    app: demo-pod
-  ports:
-  - port: 7070
-    name: http
-    targetPort: 8080
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: lb-service
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: demo-pod
-                port:
-                  number: 7070
-#          - path: /bar
-#            backend:
-#              serviceName: bar-service
-#              servicePort: 8081
-  #type: LoadBalancer
