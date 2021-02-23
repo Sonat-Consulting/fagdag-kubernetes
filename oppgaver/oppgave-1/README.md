@@ -44,6 +44,10 @@ Denne pod'en er beskrevet i en deployment:
 
     kubectl get deployment
 
+Vi kan sjekke log'en til pod'en vår - her må du bruke navn fra ``kubectl get pod``: 
+
+    kubectl logs demo-app-7d4b795879-ntxwq
+
 For å undersøke litt kan vi kobble oss på pod'en og starte et shell inni den.
 Nå mu du bruke pod-navnet du fikk fra ``kubectl get pods`` slik som dette:
 
