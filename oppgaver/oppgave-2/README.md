@@ -1,38 +1,67 @@
 ## Oppgave 2:
 
-I denne oppgaven skal dere bli kjent med hva som skjer når en pod restarter. 
+I denne oppgaven skal dere bli kjent med hva som skjer når en pod restarter eller krasjer. 
 Dere skal også bli kjent med hvordan Kubernetes vurderer om en pod trenger å restartes.
 
-Vi tar med health og readiness.
+Del 1
+---------
 
-Man kan drepe en pod ved å kjøre `kubectl kill <pod-id>`
-Da gir man beskjed til Kubernetes om å drepe den aktuelle pod-instansen og Kubernetes vil starte en ny.
+Fra forrige oppgave så har vi flere POD'er som alle henger sammen i en deployment.
 
-Dere skal også se hvordan man kan se hva som har skjedd i Kubernetes clusteret ved å se på Kubernetes events: 
-`kubectl get events`
+    kubectl get pod
+    kubectl get deployment
 
-### Ta ned pod
-Kjør `kubectl kill <pod-id>`. 
-Pod-id finner du ved å kjøre `kubectl get pods`
-Hvordan oppførte applikasjonen seg mens den tok ned og Kubernetes starter opp ny pod?
-Når du applikasjonen i nettleser mens den restarter?
-Hvordan ser loggene ut etter restart? `kubectl logs <pod-id>`
+Deploymenten forteller Kubernetes at det til en hver tid skal være 2 (Eller den verdien som ``replicas`` har) Poder tilgjengelig.
 
-Se hva som har skjedd i Kubernetes clusteret: `kubectl get events`
+Tips: For å **live** se hva som skjer med pod'ene, kan du kjøre følgende i et terminal-vindu:
+    
+    watch kubectl get pods
 
-Sett gjerne ned antall replicas også til 1 og se hva som skjer når du dreper 1 pod.
-Endre i yaml fil og deploy yaml fil på nytt ved `kubectl apply`
+Du kan prøve å fjerne en pod og se hva som skjer:
 
-Du kan også få applikasjonen til å krasje ved å trykker på TODO
+    kubectl delete pod demo-app-7d4b795879-c4qqh
 
-Er det forskjell fra når du tok den ned selv?
+Du kan også få applikasjonen som kjører inni pod'en til å krasje med å bruke ``port-forward`` og 
+gå til ``http://localhost:8080/crash``
 
-Bruk gjerne kommandoer og det du har lært fra forrige oppgave :)
+Hva skjer med poden/ene?
 
-#### Kubernetes tutorial
-Man kan også leke med tilsvarende funksjonalitet i denne tutorial: 
+Del 2
+-------
+
+En ting er når en pod crash'er... Men hva om den fortsatt kjører, men begynner å oppføre seg dårlig??
+Siden app'en vår inneholder en helsesjekk så kan vi fortelle Kubernetes å bruke denne
+
+Detaljer info om dette finnes [her](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 
 
+I filen [deployment-4.yml](deployment-4.yml) har vi lagt til følgende:
+
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 8080 # I prod bør dette være annen port en hoved-port
+      initialDelaySeconds: 5 # Venter før den begynner å sjekke om app'en er klar
+      periodSeconds: 1 # Hvor ofte den sjekker
+      failureThreshold: 5 # Hvor mange feil som skal til før den konkluderer..
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 8080 # I prod bør dette være annen port en hoved-port
+      periodSeconds: 1 # Hvor ofte den sjekker
+      failureThreshold: 5 # Hvor mange feil som skal til før den konkluderer..
+
+Hvis du først starter følende i ett terminal-vindu:
+
+    watch kubectl get pods
+
+Så ser du bedre hva som skjer, hvis du applyer filen:
+
+    kubectl apply -f deployment-4.yml
 
 
+Hvis du vil få en av pod'ene våre til å bli **unhealthy**, så kan du bruke ``port-forward`` til å kalle
+``http://localhost/unhealthy``.
+
+Da vil pod'en begynne å svare "FEIL" på helsesjekken og Kubernetes vil ta afære.. Følg med og se hva som skjer..
 
