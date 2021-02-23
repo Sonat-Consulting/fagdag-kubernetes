@@ -90,7 +90,7 @@ Del 3
 
 Når vi nå har flere pod'er, så fungerer ``port-forward`` litt dårlig.
 
-La oss "grupere" pod'ene våre i en Service og plasere en lastbalanserer (Ingress) fremfor slik at vi når de.
+La oss "gruppere" pod'ene våre i en Service og plassere en Ingress (proxy) fremfor slik at vi når de.
 
 Ta en titt på filen [deployment-3.yml](deployment-3.yml) før du apply'er den.
 
@@ -101,8 +101,13 @@ Nå kan vi sjekke at vi har fått **servicer** og **Ingress** (Lastbalanserer)
     kubectl get service
     kubectl get ingress
 
-Ingress er altså en lastbalanserer som fordeler trafikk til servicen og dermed pod'ene.
+Service grupperer altså pod'ene vår og inneholder en lastbalanserer. Den sørger også for at pod'ene den grupperer nås på 1 navn og oppdager når nye Pod's starter opp og sender trafikk dit.
+Ingress er en proxy som gjør at vi kan nå applikasjonen (Pod's) utenfra.
 Typisk så vil man sørge for at ``http://www.din-bedrift.no`` termineres til denne Ingressen.
+
+Service: https://kubernetes.io/docs/concepts/services-networking/service/
+
+Ingress: https://kubernetes.io/docs/concepts/services-networking/ingress/
 
 Nå skal vi teste den, og vi må kanskje vente litt før den er klar med en IP (ADDRESS):
 
