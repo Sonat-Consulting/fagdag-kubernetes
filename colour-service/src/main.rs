@@ -11,11 +11,22 @@ use serde::{Deserialize, Serialize};
 use std::cell::Cell;
 use std::collections::BTreeMap;
 use std::str::FromStr;
+use std::fs::File;
+use std::fs;
 
 mod remote;
 
-async fn health_handler() -> HttpResponse {
+async fn health_handler(state: web::Data<AppState>) -> HttpResponse {
+    if !state.check_health() {
+        return HttpResponse::InternalServerError().finish()
+    }
     HttpResponse::Ok().finish()
+}
+
+async fn unhealthy_handler(state: web::Data<AppState>) -> HttpResponse {
+    state.set_unhealthy();
+
+    HttpResponse::Ok().body("Service is now unhealthy")
 }
 
 async fn stop_handler() -> HttpResponse {
@@ -24,18 +35,18 @@ async fn stop_handler() -> HttpResponse {
 }
 
 async fn index_handler(
-    stats: web::Data<Stats>,
+    state: web::Data<AppState>,
     po: web::Data<PodInfo>,
     app_config: web::Data<AppConfig>,
     hb: web::Data<Handlebars<'_>>,
 ) -> HttpResponse {
-    stats.counter.set(stats.counter.get() + 1);
+    state.counter.set(state.counter.get() + 1);
 
     let mut template_data = BTreeMap::new();
     let remote_service = app_config.get_ref();
 
     let pod_me = po.get_ref().clone();
-    pod_me.number_of_requests.set(stats.counter.get());
+    pod_me.number_of_requests.set(state.counter.get());
     template_data.insert("me", pod_me);
     if let Ok(pod_friend) = get_remote(&remote_service).await {
         info!(
@@ -58,13 +69,13 @@ async fn index_handler(
 }
 
 async fn info_handler(
-    stats: web::Data<Stats>,
+    state: web::Data<AppState>,
     pod_info: web::Data<PodInfo>,
     request: web::HttpRequest,
 ) -> Result<HttpResponse, Error> {
     info!("Sending pod info to {:?}", &request.connection_info());
     let pod_me = pod_info.get_ref();
-    pod_me.number_of_requests.set(stats.counter.get());
+    pod_me.number_of_requests.set(state.counter.get());
     Ok(HttpResponse::Ok().json(pod_info.get_ref()))
 }
 
@@ -91,13 +102,14 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(app_config.new_middleware_logger())
             .wrap(middleware::Compress::new(ContentEncoding::Br))
-            .data(Stats::new())
+            .data(AppState::new())
             .app_data(handlebars_ref.clone())
             .data(pod_info.clone())
             .data(app_config.clone())
             .route("/info", web::get().to(info_handler))
             .route("/crash", web::get().to(stop_handler))
             .route("/health", web::get().to(health_handler))
+            .route("/unhealthy", web::get().to(unhealthy_handler))
             // Default / and wildcard handler
             .route("/{tail:.*}", web::get().to(index_handler))
     })
@@ -156,6 +168,7 @@ pub struct PodInfo {
     ip: String,
     number_of_requests: Cell<usize>,
     colour_rgb: String,
+    new_colour: Option<String>
 }
 
 impl PodInfo {
@@ -177,18 +190,34 @@ impl PodInfo {
             ip: std::env::var("POD_IP").unwrap_or_else(|_| "POD_IP NOT FOUND".to_string()),
             number_of_requests: Cell::new(0),
             colour_rgb,
+            new_colour: None
         }
     }
 }
 
-struct Stats {
+struct AppState {
     counter: Cell<usize>,
 }
 
-impl Stats {
-    fn new() -> Stats {
-        Stats {
+static STATE_NAME: &str = "/app/healthy";
+impl AppState {
+    fn new() -> AppState {
+        AppState {
             counter: Cell::new(0),
         }
+    }
+
+    fn check_health(&self) -> bool {
+        if let Ok(_) = File::open(STATE_NAME) {
+            return true;
+        }
+        false
+    }
+
+    fn set_unhealthy(&self) {
+        if let Err(e) = fs::remove_file(STATE_NAME) {
+            warn!("could not create unhealthy file! {:?}", e)
+        }
+        info!("service is sat to unhealthy now!")
     }
 }

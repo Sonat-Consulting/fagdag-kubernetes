@@ -41,6 +41,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: NEW_COLOUR
+              value: "dark"
             - name: LOG_LEVEL
               value: "info"
             - name: LOG_HEALTH_ENDPOINT

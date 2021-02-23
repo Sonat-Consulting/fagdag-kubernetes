@@ -3,5 +3,5 @@ FROM alpine:latest
 WORKDIR /app
 ADD ./target/x86_64-unknown-linux-musl/release/colour-service /app
 ADD ./static/templates /app/static/templates
-USER nobody
+RUN touch /app/healthy
 CMD ["./colour-service"]
