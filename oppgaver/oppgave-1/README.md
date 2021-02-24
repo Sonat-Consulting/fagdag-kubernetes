@@ -8,13 +8,24 @@ Del 1
 
 Hvis ikke din lokale Kubernetes-instance allerede kjører, så må du starte den:
 
-    minikube config set vm-driver hyperkit # default er VirtualBox
+Hvis du sitter på Mac, så må du først fortelle MiniKube at den skal bruke **hyperkit** istedenfor **VirtualBox**.
+Dette gjør du slik:
+
+    minikube config set vm-driver hyperkit
+
+> Mer info om vm-drivere for både Win, Linux og Mac finner du her: [https://minikube.sigs.k8s.io/docs/drivers/](https://minikube.sigs.k8s.io/docs/drivers/).
+
+
+Så starter du MiniKube
+
     minikube start
-minikube addons enable ingress # Trengs bare å kjøre en gang
+    minikube addons enable ingress # Trengs bare å kjøre en gang
+
 
 (Hvis du får problemer med å starte så kan du prøve en eller flere av disse kommandoene):
 
-    minikube config set vm-driver hyperkit # default er VirtualBox - hyperkit har bedre Ip/Routing støtte
+
+    minikube config set vm-driver hyperkit # Kun Mac
     minikube delete # Fjerner alt gammelt
     minikube start
     minikube addons enable ingress # Trengs bare å kjøre en gang

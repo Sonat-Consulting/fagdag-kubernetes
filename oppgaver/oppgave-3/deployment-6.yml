@@ -29,7 +29,7 @@ spec:
           httpGet:
             path: /health
             port: 8080 # I prod bør dette være annen port en hoved-port
-          initialDelaySeconds: 2 # Venter før den begynner å sjekke om app'en er klar
+          initialDelaySeconds: 20 # Venter før den begynner å sjekke om app'en er klar
           periodSeconds: 1 # Hvor ofte den sjekker
           failureThreshold: 5 # Hvor mange feil som skal til før den konkluderer..
         livenessProbe:
@@ -41,12 +41,16 @@ spec:
 
 
         env:
+        - name: BG_COLOR
+          value: "#00eeff"
         - name: LOG_LEVEL
           value: "info"
         - name: LOG_HEALTH_ENDPOINT
           value: "true"
         - name: REMOTE_SERVICE
           value: "colour-service.default"
+        - name: NEW_COLOUR
+          value: "purple" # Fargene finner dere her: https://beauter.io/docs/colors/
         - name: NODE_NAME
           valueFrom:
             fieldRef:

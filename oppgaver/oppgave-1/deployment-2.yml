@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: demo-pod
-        image: scav/colour-service:any
+        image: scav/colour-service:latest
         ports:
         - containerPort: 8080
 

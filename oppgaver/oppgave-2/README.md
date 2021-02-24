@@ -61,7 +61,7 @@ Så ser du bedre hva som skjer, hvis du applyer filen:
 
 
 Hvis du vil få en av pod'ene våre til å bli **unhealthy**, så kan du bruke ``port-forward`` til å kalle
-``http://localhost/unhealthy``.
+``http://localhost:8080/unhealthy``.
 
 Da vil pod'en begynne å svare "FEIL" på helsesjekken og Kubernetes vil ta afære.. Følg med og se hva som skjer..
 
