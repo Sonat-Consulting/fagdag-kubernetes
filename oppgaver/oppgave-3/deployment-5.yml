@@ -41,8 +41,6 @@ spec:
 
 
         env:
-        - name: BG_COLOR
-          value: "#ffeeff"
         - name: LOG_LEVEL
           value: "info"
         - name: LOG_HEALTH_ENDPOINT
