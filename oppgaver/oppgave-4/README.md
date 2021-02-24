@@ -25,7 +25,7 @@ Du kan sjekke at alt er borte vekk med:
 
 Da er vi klare til å deploy den første app'en ``green``.
 Hvis du studerer filen [deployment-green-1.yml](deployment-green-1.yml) 
-så ser du at denne mountes i lastbalansereren under ```/green``.
+så ser du at denne mountes i lastbalansereren under ``/green``.
 
 Deploy appen ``green``:
 
