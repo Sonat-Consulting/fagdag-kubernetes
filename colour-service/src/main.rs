@@ -190,7 +190,7 @@ impl PodInfo {
             ip: std::env::var("POD_IP").unwrap_or_else(|_| "POD_IP NOT FOUND".to_string()),
             number_of_requests: Cell::new(0),
             colour_rgb,
-            new_colour: None
+            new_colour: std::env::var("NEW_COLOUR").map(|v| Some(v)).unwrap_or_else(|_| None)
         }
     }
 }
