@@ -10,15 +10,15 @@ use rand::Rng;
 use serde::{Deserialize, Serialize};
 use std::cell::Cell;
 use std::collections::BTreeMap;
-use std::str::FromStr;
-use std::fs::File;
 use std::fs;
+use std::fs::File;
+use std::str::FromStr;
 
 mod remote;
 
 async fn health_handler(state: web::Data<AppState>) -> HttpResponse {
     if !state.check_health() {
-        return HttpResponse::InternalServerError().finish()
+        return HttpResponse::InternalServerError().finish();
     }
     HttpResponse::Ok().finish()
 }
@@ -140,10 +140,8 @@ impl AppConfig {
                 }
                 _ => false,
             },
-            remote_service: format!(
-                "http://{}:8080/info",
-                std::env::var("REMOTE_SERVICE").unwrap_or_else(|_| "localhost".to_string())
-            ),
+            remote_service: std::env::var("REMOTE_SERVICE")
+                .unwrap_or_else(|_| "http://localhost:8080/info".to_string()),
         };
     }
 
@@ -168,7 +166,7 @@ pub struct PodInfo {
     ip: String,
     number_of_requests: Cell<usize>,
     colour_rgb: String,
-    new_colour: Option<String>
+    new_colour: Option<String>,
 }
 
 impl PodInfo {
@@ -190,7 +188,9 @@ impl PodInfo {
             ip: std::env::var("POD_IP").unwrap_or_else(|_| "POD_IP NOT FOUND".to_string()),
             number_of_requests: Cell::new(0),
             colour_rgb,
-            new_colour: std::env::var("NEW_COLOUR").map(|v| Some(v)).unwrap_or_else(|_| None)
+            new_colour: std::env::var("NEW_COLOUR")
+                .map(|v| Some(v))
+                .unwrap_or_else(|_| None),
         }
     }
 }
