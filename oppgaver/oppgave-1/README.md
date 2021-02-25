@@ -107,18 +107,21 @@ Ta en titt på filen [deployment-3.yml](deployment-3.yml) før du apply'er den.
 
     kubectl apply -f deployment-3.yml
 
-Nå kan vi sjekke at vi har fått **servicer** og **Ingress** (Lastbalanserer)
+Nå kan vi sjekke at vi har fått **servicer** og **Ingress**
 
     kubectl get service
     kubectl get ingress
 
-Service grupperer altså pod'ene vår og inneholder en lastbalanserer. Den sørger også for at pod'ene den grupperer nås på 1 navn og oppdager når nye Pod's starter opp og sender trafikk dit.
-Ingress er en proxy som gjør at vi kan nå applikasjonen (Pod's) utenfra.
+Service grupperer og eksponerer altså pod'ene og gjør at de kan nås via felles navn på service. 
+Den oppdager når nye Pod's starter opp (service discovery) og gjør de tilgjengelig for clusteret.
+Ingress ruter trafikk til service og gjør at vi kan nå applikasjonen (Pod's) utenfra.
 Typisk så vil man sørge for at ``http://www.din-bedrift.no`` termineres til denne Ingressen.
 
-Service: https://kubernetes.io/docs/concepts/services-networking/service/
+Service [dokumentasjon](https://kubernetes.io/docs/concepts/services-networking/service/)
 
-Ingress: https://kubernetes.io/docs/concepts/services-networking/ingress/
+Ingress [dokumentasjon](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+
+En grei forklaring på Ingress og Service i Kubernetes kan man lese [her](https://thenewstack.io/kubernetes-ingress-for-beginners/#).
 
 Nå skal vi teste den, og vi må kanskje vente litt før den er klar med en IP (ADDRESS):
 
