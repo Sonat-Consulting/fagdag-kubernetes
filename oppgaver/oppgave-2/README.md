@@ -17,6 +17,9 @@ Tips: For å **live** se hva som skjer med pod'ene, kan du kjøre følgende i et
     
     watch kubectl get pods
 
+Hvis du kjører på Windows og kubectl i Powershell kan du forsøke å bruke `while` kommandoen:
+`while (1) {kubectl get pods; sleep 2}` Har ikke testet den selv så den må kanskje justeres litt :)
+
 Du kan prøve å fjerne en pod og se hva som skjer:
 
     kubectl delete pod demo-app-7d4b795879-c4qqh

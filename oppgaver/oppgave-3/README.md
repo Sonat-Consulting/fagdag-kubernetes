@@ -27,6 +27,9 @@ Hva skjer?
 
 Sjekk med ``kubectl get pods`` eller følg med live med ``watch kubectl get pods``
 
+Hvis du kjører på Windows og kubectl i Powershell kan du forsøke å bruke `while` kommandoen:
+`while (1) {kubectl get pods; sleep 2}`
+
 Hva er galt?
 
 Merker kunden problemet? Virker ting i nettleseren?
