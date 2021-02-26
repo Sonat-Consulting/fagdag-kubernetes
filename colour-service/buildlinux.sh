@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Building target=x86_64-unknown-linux-musl in release mode. This will take some time!"
 
 TARGET_CC=x86_64-linux-musl-gcc \
