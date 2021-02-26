@@ -32,6 +32,21 @@ Sjekk hvilken versjon av minikube, kubectl og docker du har og at det ser riktig
 Det kan være du må slette eksisterende cluster hvis du har lekt med minikube før: 
 `minikube stop` hvis det kjører, så `minikube delete` og så start på nytt `minikube start`
 
+### Problem: Kubectl får unauthorized når du kjører kommandoer
+#### Feilsøking 1:
+Sjekk at du har riktig contect ved å kjøre `kubectl config get-contexts`
+
+Minkube skal være den contexten du kjøre mot.
+
+#### Feilsøking 2:
+Hvis du har oppdatert minikube så kan context ha blitt korrupt og du må slette contexts. OBS: du vil miste andre contexts også når du sletter disse.
+
+- Stop minikube `minikube stop`
+- Delete minikube `minikube delete`
+- Slett .minikube og .kube mappen i din "home"-katalog. 
+- Start minikube `minikube start`
+- Oppdater context `minikube update-context`
+
 ### Problem: minikube vil ikke starte skikkelig
 Dette har vi f.eks. opplevd etter at vi har oppdatert minikube fra en eldre versjon.
 
